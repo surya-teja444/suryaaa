@@ -1,0 +1,294 @@
+Experiment 1: Implement on a data set of characters the CRC . 
+ 
+ 
+#include<stdlib.h> 
+#include<conio.h> #include<stdio.h> int main() 
+{ 
+ 	int i,j,n,g,a,arr[20],gen[20],b[20],q[20],s;  	printf("Transmitter side:");  	printf("\nEnter no. of data bits:"); 
+ 	scanf("%d",&n); 
+ 	printf("Enter data:");  	for(i=0;i<n;i++) 
+ 	 	scanf("%d",&arr[i]); 
+ 	printf("Enter size of generator:"); 
+ 	scanf("%d",&g); 
+ 	do{ 
+ 	 	printf("Enter generator:"); 
+ 	 	for(j=0;j<g;j++)  	 	 	scanf("%d",&gen[j]); 
+ 	} 
+ 	while(gen[0]!=1);  	printf("\n\tThe generator matrix:");  	for(j=0;j<g;j++)  	 	printf("%d",gen[j]);  	a=n+(g-1); 
+ 	printf("\n\tThe appended matrix is:"); 
+for(i=0;i< j;++i) 
+	 	arr[n+i]=0; 
+for(i=0;i< a;++i) 
+ 	 	printf("%d",arr[i]);  	for(i=0;i< n;++i) 
+ 	 	q[i]= arr[i]; 
+ 	for(i=0;i< n;++i) 
+ 	{ 
+ 	 	if(arr[i]==0) 
+ 	 	{ 
+ 	 	 	for(j=i;j<g+i;++j)  	 	 	 	arr[j] = arr[j]^0; 
+ 	 	} 
+ 	 	else 
+ 	 	{ 
+ 	 	 	arr[i] = arr[i]^gen[0];  	 	 	arr[i+1]=arr[i+1]^gen[1];  	 	 	arr[i+2]=arr[i+2]^gen[2];  	 	 	arr[i+3]=arr[i+3]^gen[3]; 
+ 	 	}  
+ 	} 
+ 	printf("\n\tThe CRC is :");  	for(i=n;i< a;++i)  	 	printf("%d",arr[i]); 
+ 	s=n+a; 
+ 	for(i=n;i<s;i++) 
+ 	 	q[i]=arr[i];  	 	printf("\n"); for(i=0;i<a;i++) 
+	 	printf("%d",q[i]); 
+}
+ 
+ 
+ 
+Output: 
+ 
+Transmitter side: 
+Enter no. of data bits:8 Enter data:1 0 1 0 0 0 0 1  
+Enter size of generator:4 
+ Enter generator:1 0 0 1  
+The generator matrix:1001 
+The appended matrix is:10100001000 The CRC is :111 
+10100001111 
+  
+EXPERIMENT-2  
+A) Develop a simple data link layer that performs the flow control using the sliding window protocol 
+ 
+ #include<stdio.h> int main(){ 
+ 	int n,f,frames[30],i;  	printf("Enter window size : ");  	scanf("%d",&n); 
+ 	printf("Enter number of frames to transmit: ");  	scanf("%d",&f); 
+ 	printf("Enter %d frames: \n",f);  	for(i=1;i<=f;i++){  	scanf("%d",&frames[i]); 
+} 
+printf("\nWith sliding window protocol the frames will be sent in the following manner 
+(assuming no corruption of frames)\n\n"); 
+ printf("After sending %d frames at each stage sender waits for acknowledgement sent by the receiver\n\n",n); 
+ 
+ 	for(i=1;i<=f;i++){ 
+ 	 	if(i%n==0){  	 	 	printf("%d ",frames[i]); 
+ 	 	 	printf("\nAcknowledgement of above frames sent is received by sender\n\n"); 
+ 
+ 	 	} 
+ 	 	else{ 
+ 	 	 	//printf("recieved by sender\n");  	 	 	printf("%d ",frames[i]); 
+ 	 	} 
+ 	} 
+ 	if(f%n!=0){ 
+ 	printf("\nAcknowledgement of above frames sent is received by sender\n"); 
+ 
+ 	} 
+} 
+Output: 
+Enter window size: 3 
+Enter number of   frames to transmit: 5 
+Enter 5 frames: 12 5 89 4 6 
+With sliding window protocol the frames will be sent in the following manner (assuming no corruption of frames) 
+After sending 3 frames at each stage sender waits for acknowledgement sent by the receiver 12 5 89 Acknowledgement of above frames sent is received by sender 4 6 
+Acknowledgement of above frames sent is received by sender 
+ 
+  
+b.Develop a simple data link layer that performs the flow control using the sliding window 
+protocol and loss recovery using the Go-Back-N mechanism.  
+  
+Program:  
+#include<stdio.h>
+int main()
+{
+    int windowsize,sent=0,ack,i;
+    printf("Enter windows size:");
+    scanf("%d",&windowsize);
+    while(1)
+    {
+        for(i=0;i<windowsize;i++)
+        {
+            printf("Frame %d has been transmitted\n",sent);
+            sent++;
+            if(sent==windowsize)
+            break;
+        }
+        printf("\nPlease enter the last AcknowLedgement received.");
+        scanf("%d",&ack);
+        if(ack==windowsize)
+        break;
+        else
+        sent=ack;
+    }
+    return 0;
+}
+/*
+Output:
+enter window size 8
+Frame 0 has been transmitted. 
+Frame 1 has been transmitted. 
+Frame 2 has been transmitted. 
+Frame 3 has been transmitted. 
+Frame 4 has been transmitted. 
+Frame 5 has been transmitted. 
+Frame 6 has been transmitted. 
+Frame 7 has been transmitted.
+Please enter the last Acknowledgement received. 2
+Frame 2 has been transmitted.
+ Frame 3 has been transmitted. 
+Frame 4 has been transmitted. 
+Frame 5 has been transmitted.
+Frame 6 has been transmitted
+Frame 7 has been transmitted  
+Please enter the last Acknowledgement received. 8 
+*/
+EXPERIMENT-3 
+  
+Take an example subnet of hosts and obtain a broadcast tree for the subnet.  
+  
+Program:  
+  
+import java.util.*; // import java.io.*; 
+ 
+class subnet { 
+    public static void main(String args[]) { 
+        System.out.println("Enter the Network address"); 
+        Scanner sc = new Scanner(System.in); 
+        String ip = sc.next(); 
+        String[] IPs = ip.split("\\."); 
+        int[] IP = new int[IPs.length];         for (int i = 0; i < IPs.length; i++) {             IP[i] = Integer.parseInt(IPs[i]); 
+            // System.out.println(IP[i]); 
+        } 
+        System.out.println("Enter the number of Subnets"); 
+        int sub = sc.nextInt();         int temp = IP[0];         int mask;         if (temp < 128) {             mask = 8;         } else if (temp < 192) {             mask = 16;         } else if (temp < 224) {             mask = 24; 
+        } else { 
+            System.out.println("Invalid IP for subnetting");             return; 
+        } 
+        int rem = 32 - mask;         long incr1 = 0; 
+        long incr = ((long) Math.round(Math.pow(2, rem))) / sub;         long incr2 = incr;         long t1 = 0; 
+        // System.out.println(rem+" "+incr1+"\t"+incr2); 
+        for (int j = 0; j < sub; j++) {             t1 = incr2; 
+            // System.out.println(incr2); 
+            System.out.print(IP[0]); 
+            System.out.print("." + (IP[1] + (incr1 / (256 * 256))) % 256); 
+            System.out.print("." + (IP[2] + (incr1 / 256)) % 256); 
+            System.out.print("." + (IP[3] + (incr1 % 256))); 
+ 
+            System.out.print("\t-TO-\t"); 
+            System.out.print(IP[0]); 
+            System.out.print("." + (IP[1] + (t1 / (256 * 256)) - 1) % 256); 
+ 
+            System.out.print("." + (IP[2] + (t1 / 256) - 1) % 256); 
+            System.out.print("." + (IP[3] + ((t1 - 1) % 256))); 
+            System.out.println("\n");             incr1 = incr2; 
+            incr2 = incr1 + incr; 
+        } 
+   } 
+} 
+OUTPUT:  
+  
+Enter the Network address 
+192.17.16.20 
+Enter the number of Subnets 
+4 
+192.17.16.20    -TO-    192.16.15.83 
+192.17.16.84    -TO-    192.16.15.147 
+192.17.16.148   -TO-    192.16.15.211 192.17.16.212   -TO-    192.16.16.275 
+ 	 
+ 	 	 	EXPERIMENT-4 
+ Implement distance vector routing algorithm for obtaining routing tables at each node.  
+#include <stdio.h> struct node {     int dist[20];     int from[20]; } route[10]; int main() {     int dm[20][20], no;     printf("Enter no of nodes: ");     scanf("%d", &no); 
+    printf("Enter the distance matrix:\n"); 
+    for (int i = 0; i < no; i++) {         for (int j = 0; j < no; j++) {             scanf("%d", &dm[i][j]); 
+            /*  Set distance from i to i as 0 */             dm[i][i] = 0;             route[i].dist[j] = dm[i][j];             route[i].from[j] = j; 
+        }     }     int flag;     do {         flag = 0;         for (int i = 0; i < no; i++) {             for (int j = 0; j < no; j++) {                 for (int k = 0; k < no; k++) {                     if ((route[i].dist[j]) > (route[i].dist[k] + route[k].dist[j])) {                         route[i].dist[j] = route[i].dist[k] + route[k].dist[j];                         route[i].from[j] = k; 
+                        flag = 1; 
+                    } 
+                } 
+            } 
+        } 
+    } while (flag);     for (int i = 0; i < no; i++) { 
+        printf("\nRouter info for router: %d\n", i + 1);         printf("Dest\tNext Hop\tDist\n");         for (int j = 0; j < no; j++) 
+            printf("%d\t%d\t\t%d\n", j+1, route[i].from[j]+1, route[i].dist[j]); 
+    }     return 0; } output:Enter no of nodes: 3 Enter the distance matrix: 
+0	2 99 
+1	0 99 
+3 2 0 
+Router info for router: 1 
+Dest 	Next Hop 	Dist 
+1	1 	 	0 
+2	2 	 	2 
+3	3 	 	99 
+ 
+Router info for router: 2 
+Dest 	Next Hop 	Dist 
+1	1 	 	1 
+2	2 	 	0 
+3	3 	 	99 
+ 
+Router info for router: 3 
+Dest 	Next Hop 	Dist 
+1	1 	 	3 
+2	2 	 	2 
+3	3 	 	0 
+EXPERIMENT-9 
+  
+Implementation of DNS: 
+import java.net.*; import java.io.*; import java.util.*; public class dns { 
+  public static void main(String[] args) {     int n; 
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));     do { 
+      System.out.println("\n Menu: \n 1. DNS 2. Reverse DNS 3. Exit \n");       System.out.println("\n Enter your choice");       n = Integer.parseInt(System.console().readLine());       if (n == 1) { 
+        try { 
+          System.out.println("\n Enter Host Name "); 
+          String hname = in.readLine();           InetAddress address; 
+          address = InetAddress.getByName(hname); 
+          System.out.println("Host Name: " + address.getHostName()); 
+          System.out.println("IP: " + address.getHostAddress()); 
+        } catch (IOException ioe) { 
+          ioe.printStackTrace(); 
+        }       }       if (n == 2) { 
+        try { 
+          System.out.println("\n Enter IP address"); 
+          String ipstr = in.readLine(); 
+          InetAddress ia = InetAddress.getByName(ipstr); 
+          System.out.println("IP: " + ipstr); 
+          System.out.println("Host Name: " + ia.getHostName()); 
+        } catch (IOException ioe) { 
+          ioe.printStackTrace(); 
+        } 
+      } 
+    } while (!(n == 3)); 
+  } } 
+ 
+OUTPUT:  
+Menu: 
+1.DNS 2. Reverse DNS 3. Exit 
+Enter your choice 
+1 
+Enter Host Name www.google.com 
+Host Name: www.google.com 
+IP: 142.250.205.228 
+EXPERIMENT-10 
+Implementation of Ping service.  
+  
+Program:  
+  
+import java.io.*; import java.net.*; class pingserver {     public static void main(String args[]) { 
+        try { 
+            String str; 
+            System.out.print(" Enter the IP Address to be Ping : "); 
+            BufferedReader buf1 = new BufferedReader(new InputStreamReader(System.in)); 
+            String ip = buf1.readLine(); 
+            Runtime H = Runtime.getRuntime(); 
+            Process p = H.exec("ping " + ip); 
+            InputStream in = p.getInputStream(); 
+            BufferedReader buf2 = new BufferedReader(new InputStreamReader(in)); 
+            while ((str = buf2.readLine()) != null) { 
+                System.out.println(" " + str); 
+            } 
+        } catch (Exception e) { 
+            System.out.println(e.getMessage()); 
+       } 
+    } 
+} OUTPUT:  
+ Enter the IP Address to be Ping : 142.250.205.228  
+ Pinging 142.250.205.228 with 32 bytes of data: 
+ Reply from 142.250.205.228: bytes=32 time=1469ms TTL=115 
+ Reply from 142.250.205.228: bytes=32 time=117ms TTL=115 
+ Reply from 142.250.205.228: bytes=32 time=125ms TTL=115 
+ Reply from 142.250.205.228: bytes=32 time=35ms TTL=115 
+ Ping statistics for 142.250.205.228: 
+     Packets: Sent = 4, Received = 4, Lost = 0 (0% loss), Approximate round trip times in milli-seconds: 
+     Minimum = 35ms, Maximum = 1469ms, Average = 436ms 
